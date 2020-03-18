@@ -1,0 +1,50 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.ehcache.org/v3"
+	xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+	xsi:schemaLocation="
+            http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+            http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+
+
+	<!-- Get more details about the optuions at https://www.ehcache.org/documentation/3.8/xml.html 
+		& https://www.ehcache.org/documentation/3.8/examples.html#xml-with-107-extension -->
+	<!-- Persistent cache directory -->
+	<service>
+	    <jsr107:defaults enable-management="true" enable-statistics="true"/>
+	</service>
+	<persistence directory="C:\\SKG\\cache" />
+
+	<cache alias="oup-cache-advantageFeedsCache">
+		<key-type>java.lang.String</key-type>
+		<value-type>java.lang.Object</value-type>
+		<expiry>
+			<ttl unit="seconds">300</ttl>
+		</expiry>
+		<listeners>
+			<listener>
+				<class>com.oup.ehcache.event.CustomCacheEventLogger</class>
+				<event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+				<event-ordering-mode>UNORDERED</event-ordering-mode>
+				<events-to-fire-on>CREATED</events-to-fire-on>
+				<events-to-fire-on>UPDATED</events-to-fire-on>
+				<events-to-fire-on>EXPIRED</events-to-fire-on>
+				<events-to-fire-on>REMOVED</events-to-fire-on>
+				<events-to-fire-on>EVICTED</events-to-fire-on>
+			</listener>
+		</listeners>
+
+		<resources>
+			<!-- <heap unit="entries">2</heap> -->
+			<!-- Ensure offheap is more than heap. get more information from storage tier section of https://www.ehcache.org/documentation/3.0/getting-started.html -->
+			<!-- <offheap unit="MB">400</offheap> -->
+			<!-- If you put disk persistent more than 4 GB ensure that you are sure about the under lying file system. -->
+			<!--
+			That attribute indicates whether or not Ehcache will try to preserve the disk tier data between JVM restarts.
+			With persistent="false" Ehcache will wipe the disk data on shutdown.
+			With persistent="true" Ehcache will preserve the disk data on shutdown and try to load it back on restart of the JVM. 
+			 -->
+			<disk persistent="false" unit="GB">2</disk>
+		</resources>
+	</cache>
+
+</config>
