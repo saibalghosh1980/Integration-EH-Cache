@@ -15,3 +15,5 @@
 		diskPersistent="false" transactionalMode="off">
 	</cache>
 </ehcache>
+<!--https://www.ehcache.org/documentation/2.7/configuration/fast-restart.html-->
+<!--https://www.ehcache.org/ehcache.xml-->
